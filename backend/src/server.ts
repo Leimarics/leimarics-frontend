@@ -24,7 +24,9 @@ app.use(helmet())
 // Modified CORS to allow both local development and your live Vercel site
 app.use(cors({
   origin: [
-    'http://localhost:3000', 
+    'http://localhost:3000',
+    'https://leimarics.com',      // New Primary Domain
+    'https://www.leimarics.com',  // Include the www version 
     'https://leimarics.vercel.app',
     process.env.FRONTEND_URL || ''
   ].filter(Boolean), // Filters out empty strings if FRONTEND_URL isn't set
