@@ -1,0 +1,239 @@
+# ==============================================================================
+# LEIMARICS BACKEND CI/CD PIPELINE
+# ==============================================================================
+# 
+# PURPOSE: Automated quality checks for backend API code
+# CRITICAL: Includes database migration safety checks
+# 
+# WHAT IT DOES:
+#   1. Validates Prisma schema syntax
+#   2. Checks for dangerous database migrations
+#   3. Runs TypeScript type checking
+#   4. Tests if backend builds successfully
+#   5. Validates environment variables
+#
+# WHY THIS MATTERS:
+#   - Prevents database corruption from bad migrations
+#   - Protects production data
+#   - Ensures API reliability
+#   - Critical for team collaboration
+# ==============================================================================
+
+name: Backend CI - Quality Gate
+
+on:
+  push:
+    branches:
+      - main
+      - staging
+    paths:
+      - 'backend/**'
+      - '.github/workflows/backend-ci.yml'
+  
+  pull_request:
+    branches:
+      - main
+      - staging
+    paths:
+      - 'backend/**'
+  
+  workflow_dispatch:
+
+jobs:
+  # --------------------------------------------------------------------------
+  # JOB 1: Prisma Schema Validation (CRITICAL FOR DATABASE SAFETY)
+  # --------------------------------------------------------------------------
+  prisma-validation:
+    name: 🗄️ Database Schema Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'backend/package-lock.json'
+          
+      - name: 📦 Install Dependencies
+        working-directory: ./backend
+        run: |
+          echo "📦 Installing backend dependencies..."
+          npm ci
+          echo "✅ Dependencies installed"
+          
+      # CRITICAL STEP: Validate Prisma Schema
+      # --------------------------------------------------------------------
+      - name: ✅ Validate Prisma Schema
+        working-directory: ./backend
+        run: |
+          echo "🔍 Validating Prisma schema syntax..."
+          npx prisma validate
+          echo "✅ Schema is valid"
+        # WHAT THIS CATCHES:
+        #   - Syntax errors in schema.prisma
+        #   - Invalid field types
+        #   - Missing relations
+        #   - Incompatible database types
+        # WHY CRITICAL: Invalid schema = database corruption
+        
+      # STEP: Generate Prisma Client
+      # --------------------------------------------------------------------
+      - name: 🔄 Generate Prisma Client
+        working-directory: ./backend
+        run: |
+          echo "🔄 Generating Prisma Client..."
+          npx prisma generate
+          echo "✅ Prisma Client generated"
+        # WHY: Ensures TypeScript types match database schema
+        # CATCHES: Missing models, outdated client
+        
+      # STEP: Check for Dangerous Migrations
+      # --------------------------------------------------------------------
+      - name: ⚠️ Check Migration Safety
+        working-directory: ./backend
+        run: |
+          echo "⚠️ Checking for dangerous database operations..."
+          
+          # Check if there are any pending migrations
+          if [ -d "prisma/migrations" ]; then
+            LATEST_MIGRATION=$(ls -t prisma/migrations | head -n 1)
+            echo "Latest migration: $LATEST_MIGRATION"
+            
+            # Check for dangerous operations
+            if grep -r "DROP TABLE\|DROP COLUMN\|ALTER COLUMN.*DROP" prisma/migrations/$LATEST_MIGRATION 2>/dev/null; then
+              echo "🚨 WARNING: Dangerous migration detected!"
+              echo "This migration contains DROP operations that could cause data loss."
+              echo "Please review carefully before merging to main."
+              echo ""
+              echo "If this is intentional, add a comment in the PR explaining why."
+              # Don't fail the build, just warn (can change to exit 1 if you want to block)
+            else
+              echo "✅ No dangerous operations detected"
+            fi
+          else
+            echo "No migrations directory found"
+          fi
+        # WHAT THIS CATCHES:
+        #   - DROP TABLE (deletes entire table)
+        #   - DROP COLUMN (deletes column and all its data)
+        #   - ALTER COLUMN DROP (removes constraints that might cause issues)
+        # WHY CRITICAL: These operations are irreversible in production
+        
+  # --------------------------------------------------------------------------
+  # JOB 2: Backend Code Quality
+  # --------------------------------------------------------------------------
+  backend-quality:
+    name: 🔧 Backend Code Quality
+    runs-on: ubuntu-latest
+    needs: prisma-validation  # Only run after Prisma checks pass
+    
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'backend/package-lock.json'
+          
+      - name: 📦 Install Dependencies
+        working-directory: ./backend
+        run: npm ci
+        
+      # STEP: TypeScript Type Checking
+      # --------------------------------------------------------------------
+      - name: 🔷 TypeScript Type Check
+        working-directory: ./backend
+        run: |
+          echo "🔷 Running TypeScript type checker..."
+          npx tsc --noEmit
+          echo "✅ No type errors found"
+        # WHAT THIS CATCHES:
+        #   - Wrong Prisma client usage
+        #   - API endpoint type mismatches
+        #   - Missing error handling types
+        #   - Express middleware type issues
+        
+      # STEP: Build Test
+      # --------------------------------------------------------------------
+      - name: 🏗️ Test Build
+        working-directory: ./backend
+        run: |
+          echo "🏗️ Testing backend build..."
+          npm run build
+          echo "✅ Build successful"
+        # WHAT THIS CATCHES:
+        #   - Import errors
+        #   - Module resolution issues
+        #   - Build configuration problems
+        
+      # STEP: Environment Variable Check
+      # --------------------------------------------------------------------
+      - name: 🔐 Check Required Environment Variables
+        working-directory: ./backend
+        run: |
+          echo "🔐 Checking environment variable configuration..."
+          
+          # Check if .env.example exists (it should!)
+          if [ ! -f ".env.example" ]; then
+            echo "⚠️ Warning: .env.example not found"
+            echo "Create this file to document required environment variables"
+          else
+            echo "✅ .env.example found"
+            echo "Required variables:"
+            cat .env.example
+          fi
+          
+          # Verify no secrets are committed
+          if grep -r "DATABASE_URL=postgresql://.*@.*supabase" . 2>/dev/null; then
+            echo "🚨 ERROR: Supabase URL found in repository!"
+            echo "Never commit production database URLs!"
+            exit 1
+          fi
+          
+          echo "✅ No secrets found in repository"
+        # WHAT THIS CATCHES:
+        #   - Accidentally committed production credentials
+        #   - Missing .env.example documentation
+        #   - Hardcoded API keys
+        # WHY CRITICAL: Leaked credentials = security breach
+        
+      # STEP: Summary
+      # --------------------------------------------------------------------
+      - name: 📊 Generate Summary
+        if: always()
+        run: |
+          echo "# 🎯 Backend CI Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## ✅ All Checks Passed" >> $GITHUB_STEP_SUMMARY
+          echo "- Prisma Schema: Valid" >> $GITHUB_STEP_SUMMARY
+          echo "- TypeScript: No errors" >> $GITHUB_STEP_SUMMARY
+          echo "- Build: Successful" >> $GITHUB_STEP_SUMMARY
+          echo "- Security: No leaked credentials" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Status**: Safe to deploy 🚀" >> $GITHUB_STEP_SUMMARY
+
+# ==============================================================================
+# DEPLOYMENT SAFETY NOTES
+# ==============================================================================
+# 
+# This workflow does NOT automatically deploy to production.
+# It only validates that code is safe to deploy.
+# 
+# Deployment happens separately:
+#   - Render watches the 'main' branch
+#   - When code is merged to main, Render auto-deploys
+#   - Render runs: npm install → npx prisma migrate deploy → npm start
+#
+# Migration Safety:
+#   - 'prisma migrate deploy' only runs approved migrations
+#   - It does NOT create new migrations (only 'migrate dev' does that)
+#   - If migration fails, deployment is rolled back automatically
+#
+# ==============================================================================

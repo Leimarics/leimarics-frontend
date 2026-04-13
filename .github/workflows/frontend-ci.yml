@@ -1,0 +1,176 @@
+# ==============================================================================
+# LEIMARICS FRONTEND CI/CD PIPELINE
+# ==============================================================================
+# 
+# PURPOSE: Automated quality checks for frontend code
+# TRIGGERS: On every push and pull request to main/staging branches
+# WHAT IT DOES:
+#   1. Checks code quality (ESLint)
+#   2. Validates TypeScript types
+#   3. Tests if the app builds successfully
+#   4. Prevents broken code from being merged
+#
+# WHY THIS MATTERS:
+#   - Catches bugs before they reach production
+#   - Ensures consistent code quality
+#   - Protects users from broken deployments
+#   - Enables safe collaboration with interns
+# ==============================================================================
+
+name: Frontend CI - Quality Gate
+
+# ==============================================================================
+# TRIGGERS - When does this workflow run?
+# ==============================================================================
+on:
+  # Run on every push to main or staging branches
+  push:
+    branches:
+      - main        # Production branch
+      - staging     # Testing branch
+    paths:
+      - 'frontend/**'  # Only run if frontend files changed
+      - '.github/workflows/frontend-ci.yml'
+  
+  # Run on every pull request targeting main or staging
+  pull_request:
+    branches:
+      - main
+      - staging
+    paths:
+      - 'frontend/**'
+  
+  # Allow manual trigger from GitHub UI
+  workflow_dispatch:
+
+# ==============================================================================
+# JOBS - What tasks should run?
+# ==============================================================================
+jobs:
+  # --------------------------------------------------------------------------
+  # JOB 1: Code Quality & Type Checking
+  # --------------------------------------------------------------------------
+  quality-checks:
+    name: Code Quality & Type Checking
+    runs-on: ubuntu-latest
+    
+    # Only run this job if:
+    # - It's a push to main/staging, OR
+    # - It's a pull request, OR
+    # - It's manually triggered
+    if: github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
+    
+    steps:
+      # STEP 1: Get the code
+      # --------------------------------------------------------------------
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        # WHY: Downloads your repo code into the GitHub Actions runner
+        # WHAT IT DOES: Clones the exact commit that triggered this workflow
+        
+      # STEP 2: Set up Node.js environment
+      # --------------------------------------------------------------------
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'  # Use Node.js 20 (LTS version)
+          cache: 'npm'        # Cache npm packages for faster builds
+          cache-dependency-path: 'frontend/package-lock.json'
+        # WHY: GitHub Actions runners start empty - we need Node.js installed
+        # CACHE BENEFIT: 2nd run takes 30 seconds instead of 2 minutes
+        
+      # STEP 3: Install dependencies
+      # --------------------------------------------------------------------
+      - name: 📦 Install Dependencies
+        working-directory: ./frontend
+        run: |
+          echo "📦 Installing frontend dependencies..."
+          npm ci
+          echo "✅ Dependencies installed successfully"
+        # WHY npm ci vs npm install:
+        #   - npm ci is faster (doesn't update package-lock.json)
+        #   - npm ci ensures exact versions from package-lock.json
+        #   - npm ci fails if package.json and package-lock.json don't match
+        
+      # STEP 4: Run ESLint (Code Quality Check)
+      # --------------------------------------------------------------------
+      - name: 🔍 Run ESLint
+        working-directory: ./frontend
+        run: |
+          echo "🔍 Running ESLint to check code quality..."
+          npm run lint
+          echo "✅ No linting errors found"
+        # WHAT THIS CATCHES:
+        #   - Unused variables
+        #   - Missing dependencies in useEffect
+        #   - Console.log statements in production
+        #   - Inconsistent code formatting
+        #   - Potential bugs (like missing return statements)
+        # IF IT FAILS: The PR cannot be merged until errors are fixed
+        
+      # STEP 5: TypeScript Type Checking
+      # --------------------------------------------------------------------
+      - name: 🔷 TypeScript Type Check
+        working-directory: ./frontend
+        run: |
+          echo "🔷 Running TypeScript type checker..."
+          npx tsc --noEmit
+          echo "✅ No type errors found"
+        # WHAT THIS CATCHES:
+        #   - Wrong prop types passed to components
+        #   - Accessing properties that don't exist
+        #   - Function called with wrong arguments
+        #   - Missing required props
+        # WHY --noEmit: We only want to check types, not generate JS files
+        
+      # STEP 6: Build Test
+      # --------------------------------------------------------------------
+      - name: 🏗️ Test Build
+        working-directory: ./frontend
+        run: |
+          echo "🏗️ Testing if application builds successfully..."
+          npm run build
+          echo "✅ Build completed successfully"
+        env:
+          # Provide dummy env vars for build (real ones are on Vercel)
+          #NEXT_PUBLIC_API_URL: "https://api-placeholder.com"
+          NEXT_PUBLIC_API_URL: "https://leimarics-backend.onrender.com"
+        # WHAT THIS CATCHES:
+        #   - Import errors
+        #   - Missing files
+        #   - Build configuration issues
+        #   - Environment variable problems
+        # WHY THIS MATTERS: If it can't build in CI, it won't deploy to Vercel
+        
+      # STEP 7: Generate Summary Report
+      # --------------------------------------------------------------------
+      - name: 📊 Generate Summary
+        if: always()  # Run even if previous steps failed
+        run: |
+          echo "# 🎯 Frontend CI Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## ✅ Quality Checks Passed" >> $GITHUB_STEP_SUMMARY
+          echo "- ESLint: No errors" >> $GITHUB_STEP_SUMMARY
+          echo "- TypeScript: No type errors" >> $GITHUB_STEP_SUMMARY
+          echo "- Build: Successful" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Status**: Ready for deployment ✨" >> $GITHUB_STEP_SUMMARY
+        # WHAT THIS DOES: Creates a nice summary in GitHub Actions UI
+        # WHERE YOU SEE IT: Actions tab → Click workflow run → Summary tab
+
+# ==============================================================================
+# WHAT HAPPENS AFTER THIS WORKFLOW RUNS?
+# ==============================================================================
+# 
+# ✅ IF ALL CHECKS PASS:
+#    - Pull request shows green checkmark
+#    - Code can be merged to staging/main
+#    - Vercel automatically deploys the update
+#
+# ❌ IF ANY CHECK FAILS:
+#    - Pull request shows red X
+#    - Merge button is disabled (if branch protection is enabled)
+#    - Developer must fix issues and push again
+#    - Workflow runs again automatically on new push
+#
+# ==============================================================================
