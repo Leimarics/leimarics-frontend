@@ -74,8 +74,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'  # Use Node.js 20 (LTS version)
-          cache: 'npm'        # Cache npm packages for faster builds
-          cache-dependency-path: 'frontend/package-lock.json'
         # WHY: GitHub Actions runners start empty - we need Node.js installed
         # CACHE BENEFIT: 2nd run takes 30 seconds instead of 2 minutes
         
@@ -85,12 +83,14 @@ jobs:
         working-directory: ./frontend
         run: |
           echo "📦 Installing frontend dependencies..."
-          npm ci
+          npm install -g pnpm
+          pnpm install --frozen-lockfile
           echo "✅ Dependencies installed successfully"
-        # WHY npm ci vs npm install:
-        #   - npm ci is faster (doesn't update package-lock.json)
-        #   - npm ci ensures exact versions from package-lock.json
-        #   - npm ci fails if package.json and package-lock.json don't match
+        # WHY pnpm install --frozen-lockfile:
+        #   - This is the pnpm equivalent of 'npm ci'
+        #   - It forces pnpm to strictly use pnpm-lock.yaml without modifying it
+        #   - It fails the build if package.json and the lockfile are out of sync
+        #   - It prevents accidental dependency updates from breaking the CI tests
         
       # STEP 4: Run ESLint (Code Quality Check)
       # --------------------------------------------------------------------
@@ -98,7 +98,7 @@ jobs:
         working-directory: ./frontend
         run: |
           echo "🔍 Running ESLint to check code quality..."
-          npm run lint
+          pnpm run lint
           echo "✅ No linting errors found"
         # WHAT THIS CATCHES:
         #   - Unused variables
@@ -129,7 +129,7 @@ jobs:
         working-directory: ./frontend
         run: |
           echo "🏗️ Testing if application builds successfully..."
-          npm run build
+          pnpm run build
           echo "✅ Build completed successfully"
         env:
           # Provide dummy env vars for build (real ones are on Vercel)
