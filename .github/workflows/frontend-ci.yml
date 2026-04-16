@@ -135,6 +135,9 @@ jobs:
           # Provide dummy env vars for build (real ones are on Vercel)
           #NEXT_PUBLIC_API_URL: "https://api-placeholder.com"
           NEXT_PUBLIC_API_URL: "https://leimarics-backend.onrender.com"
+          # Provide dummy env vars so Next.js can compile Supabase routes during build
+          NEXT_PUBLIC_SUPABASE_URL: "https://dummy.supabase.co"
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: "dummy-key"
         # WHAT THIS CATCHES:
         #   - Import errors
         #   - Missing files
