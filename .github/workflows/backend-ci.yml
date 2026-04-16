@@ -158,7 +158,15 @@ jobs:
         # WHY pnpm install --frozen-lockfile:
         #   - Strictly enforces the pnpm-lock.yaml versions
         #   - Guarantees the CI server tests the exact same code you wrote locally
-        
+
+      # STEP: Generate Prisma Client
+      - name: 🔄 Generate Prisma Client
+        working-directory: ./backend
+        run: npx prisma generate
+        env:
+          DATABASE_URL: "postgresql://dummy:dummy@localhost:5432/dummy"
+        # We need to provide a fake DATABASE_URL just so Prisma can run its validation checks.  
+      
       # STEP: TypeScript Type Checking
       # --------------------------------------------------------------------
       - name: 🔷 TypeScript Type Check
