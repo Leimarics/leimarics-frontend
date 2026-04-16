@@ -81,6 +81,9 @@ jobs:
         #   - Missing relations
         #   - Incompatible database types
         # WHY CRITICAL: Invalid schema = database corruption
+        env:
+          DATABASE_URL: "postgresql://dummy:dummy@localhost:5432/dummy"
+        # We need to provide a fake DATABASE_URL just so Prisma can run its validation checks.
         
       # STEP: Generate Prisma Client
       # --------------------------------------------------------------------
@@ -92,6 +95,9 @@ jobs:
           echo "✅ Prisma Client generated"
         # WHY: Ensures TypeScript types match database schema
         # CATCHES: Missing models, outdated client
+        env:
+          DATABASE_URL: "postgresql://dummy:dummy@localhost:5432/dummy"
+        # We need to provide a fake DATABASE_URL just so Prisma can run its validation checks.
         
       # STEP: Check for Dangerous Migrations
       # --------------------------------------------------------------------
