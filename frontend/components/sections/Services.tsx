@@ -6,7 +6,7 @@ import Link from 'next/link'
 const services = [
   {
     category: "Web & E-Commerce",
-    link: "/services/website-development", // Added routing link
+    link: "/services/website-development", 
     items: [
       { name: "Basic Website (Static, up to 5 pages)", price: "₹15,000–₹18,000", tech: ["Next.js", "Tailwind", "Vercel"] },
       { name: "Business Website (Dynamic CMS, 8-10 pages)", price: "₹30,000–₹45,000", tech: ["Next.js", "Sanity CMS", "Resend"] },
@@ -16,7 +16,7 @@ const services = [
   },
   {
     category: "DevOps & Cloud",
-    link: "/contact", // Routes to contact for custom infrastructure quoting
+    link: "/contact", 
     description: "The only Goa agency with a DevOps engineer building your infrastructure",
     items: [
       { name: "CI/CD Pipeline Setup", price: "₹20,000–₹35,000", tech: ["GitHub Actions", "Vercel", "Docker"] },
@@ -28,7 +28,7 @@ const services = [
   },
   {
     category: "Design & Brand",
-    link: "/services/ui-ux-design", // Added routing link
+    link: "/services/ui-ux-design", 
     items: [
       { name: "UI/UX Design (Figma)", price: "₹20,000–₹40,000", tech: ["Figma", "Prototypes"] },
       { name: "Brand Identity Package", price: "₹15,000–₹25,000", tech: ["Logo", "Guidelines"] },
@@ -56,9 +56,9 @@ export default function Services() {
           transition={{ duration: 0.6 }}
           className="mb-12"
         >
-          <h2 className="heading-section">Services & Pricing</h2>
+          <h2 className="heading-section">Our Services</h2>
           <p className="text-body-lg max-w-2xl">
-            Production-grade solutions with transparent pricing. No hidden fees.
+            Production-grade solutions engineered for scalability, security, and performance.
           </p>
         </motion.div>
 
@@ -87,9 +87,16 @@ export default function Services() {
                     <li key={item.name} className="border-b border-brand-border-muted pb-4 last:border-0">
                       <div className="flex justify-between items-start mb-2">
                         <span className="font-semibold text-sm">{item.name}</span>
-                        <span className="font-mono text-sm text-brand-accent ml-2 flex-shrink-0">
+                        
+                        {/* PRICING HIDDEN: 
+                          Uncomment the span below to restore public pricing in the future.
+                          Data remains in the array above.
+                        */}
+                        {/* <span className="font-mono text-sm text-brand-accent ml-2 flex-shrink-0">
                           {item.price}
-                        </span>
+                        </span> 
+                        */}
+
                       </div>
                       <div className="flex flex-wrap gap-2 mt-2">
                         {item.tech.map((tech) => (
