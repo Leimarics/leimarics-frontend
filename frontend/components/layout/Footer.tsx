@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react'
+import { Logo } from '@/components/ui/Logo'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -42,7 +42,7 @@ export default function Footer() {
     }
   }
 
-  // UPDATED: Social media links
+  // Social media links
   const socialLinks = {
     facebook: 'https://www.facebook.com/leimarics',
     twitter: 'https://www.twitter.com/leimarics',
@@ -51,24 +51,18 @@ export default function Footer() {
   }
 
   return (
-    <footer className="bg-gray-900 text-white">
-      <div className="container mx-auto px-4 py-16">
+    <footer className="bg-brand-bg-secondary border-t border-brand-border text-brand-text">
+      <div className="container-custom py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
-          {/* About Column - UPDATED */}
+          {/* About Column */}
           <div>
-            <div className="mb-4">
-              <Image
-                src="/Leimarics-log.png"
-                alt="Leimarics"
-                width={180}
-                height={45}
-                className="object-contain" //FIX: Removed 'brightness-0 invert' and added 'object-contain'
-              />
+            <div className="mb-6">
+              <Logo variant="wordmark" className="h-8" />
             </div>
-            <p className="text-gray-400 mb-4 leading-relaxed">
+            <p className="text-brand-text-muted mb-4 leading-relaxed font-mono text-sm">
               For What&apos;s Next.
             </p>
-            <p className="text-gray-400 mb-6 leading-relaxed text-sm">
+            <p className="text-brand-text-muted mb-6 leading-relaxed text-sm">
               Where Ambition Meets Execution. We architect world-class digital solutions for brands that are ready to lead.
             </p>
             
@@ -78,7 +72,7 @@ export default function Footer() {
                 href={socialLinks.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-coral-500 transition-colors"
+                className="w-10 h-10 rounded-full bg-brand-bg border border-brand-border flex items-center justify-center text-brand-text-muted hover:text-white hover:bg-brand-accent hover:border-brand-accent transition-all"
                 aria-label="Facebook"
               >
                 <Facebook className="w-5 h-5" />
@@ -87,7 +81,7 @@ export default function Footer() {
                 href={socialLinks.twitter}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-coral-500 transition-colors"
+                className="w-10 h-10 rounded-full bg-brand-bg border border-brand-border flex items-center justify-center text-brand-text-muted hover:text-white hover:bg-brand-accent hover:border-brand-accent transition-all"
                 aria-label="Twitter"
               >
                 <Twitter className="w-5 h-5" />
@@ -96,7 +90,7 @@ export default function Footer() {
                 href={socialLinks.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-coral-500 transition-colors"
+                className="w-10 h-10 rounded-full bg-brand-bg border border-brand-border flex items-center justify-center text-brand-text-muted hover:text-white hover:bg-brand-accent hover:border-brand-accent transition-all"
                 aria-label="Instagram"
               >
                 <Instagram className="w-5 h-5" />
@@ -105,7 +99,7 @@ export default function Footer() {
                 href={socialLinks.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-coral-500 transition-colors"
+                className="w-10 h-10 rounded-full bg-brand-bg border border-brand-border flex items-center justify-center text-brand-text-muted hover:text-white hover:bg-brand-accent hover:border-brand-accent transition-all"
                 aria-label="LinkedIn"
               >
                 <Linkedin className="w-5 h-5" />
@@ -115,42 +109,42 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-semibold text-lg mb-4">Quick Links</h4>
+            <h4 className="font-display font-bold text-lg mb-4 text-brand-text">Quick Links</h4>
             <ul className="space-y-3">
-              <li><Link href="/" className="text-gray-400 hover:text-coral-500 transition-colors">Home</Link></li>
-              <li><Link href="/#services" className="text-gray-400 hover:text-coral-500 transition-colors">Services</Link></li>
-              <li><Link href="/portfolio" className="text-gray-400 hover:text-coral-500 transition-colors">Portfolio</Link></li>
-              <li><Link href="/about" className="text-gray-400 hover:text-coral-500 transition-colors">About</Link></li>
-              <li><Link href="/#contact" className="text-gray-400 hover:text-coral-500 transition-colors">Contact</Link></li>
+              <li><Link href="/" className="text-brand-text-muted hover:text-brand-accent transition-colors">Home</Link></li>
+              <li><Link href="/#services" className="text-brand-text-muted hover:text-brand-accent transition-colors">Services</Link></li>
+              <li><Link href="/portfolio" className="text-brand-text-muted hover:text-brand-accent transition-colors">Portfolio</Link></li>
+              <li><Link href="/about" className="text-brand-text-muted hover:text-brand-accent transition-colors">About</Link></li>
+              <li><Link href="/#contact" className="text-brand-text-muted hover:text-brand-accent transition-colors">Contact</Link></li>
             </ul>
           </div>
 
           {/* Services */}
           <div>
-            <h4 className="font-semibold text-lg mb-4">Services</h4>
+            <h4 className="font-display font-bold text-lg mb-4 text-brand-text">Services</h4>
             <ul className="space-y-3">
               <li>
-                <Link href="/services/website-development" className="text-gray-400 hover:text-coral-500 transition-colors">
+                <Link href="/services/website-development" className="text-brand-text-muted hover:text-brand-accent transition-colors">
                   Website Development
                 </Link>
               </li>
               <li>
-                <Link href="/services/ecommerce" className="text-gray-400 hover:text-coral-500 transition-colors">
+                <Link href="/services/ecommerce" className="text-brand-text-muted hover:text-brand-accent transition-colors">
                   E-commerce Solutions
                 </Link>
               </li>
               <li>
-                <Link href="/services/ui-ux-design" className="text-gray-400 hover:text-coral-500 transition-colors">
+                <Link href="/services/ui-ux-design" className="text-brand-text-muted hover:text-brand-accent transition-colors">
                   UI/UX Design
                 </Link>
               </li>
               <li>
-                <Link href="/services/maintenance" className="text-gray-400 hover:text-coral-500 transition-colors">
+                <Link href="/services/maintenance" className="text-brand-text-muted hover:text-brand-accent transition-colors">
                   Website Maintenance
                 </Link>
               </li>
               <li>
-                <Link href="/services/seo" className="text-gray-400 hover:text-coral-500 transition-colors">
+                <Link href="/services/seo" className="text-brand-text-muted hover:text-brand-accent transition-colors">
                   SEO Optimization
                 </Link>
               </li>
@@ -159,36 +153,36 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h4 className="font-semibold text-lg mb-4">Contact Us</h4>
-            <ul className="space-y-4 text-gray-400">
+            <h4 className="font-display font-bold text-lg mb-4 text-brand-text">Contact Us</h4>
+            <ul className="space-y-4 text-brand-text-muted">
               <li className="flex items-start gap-3">
-                <Phone className="w-5 h-5 text-coral-500 flex-shrink-0 mt-0.5" />
+                <Phone className="w-5 h-5 text-brand-accent flex-shrink-0 mt-0.5" />
                 <div>
-                  <a href="tel:+917499216988" className="hover:text-coral-500 transition-colors">
+                  <a href="tel:+917499216988" className="hover:text-brand-accent transition-colors">
                     +91 7499216988
                   </a>
                 </div>
               </li>
               <li className="flex items-start gap-3">
-                <Mail className="w-5 h-5 text-coral-500 flex-shrink-0 mt-0.5" />
+                <Mail className="w-5 h-5 text-brand-accent flex-shrink-0 mt-0.5" />
                 <div>
-                  <a href="mailto:contact@leimarics.com" className="hover:text-coral-500 transition-colors break-all">
+                  <a href="mailto:contact@leimarics.com" className="hover:text-brand-accent transition-colors break-all">
                     contact@leimarics.com
                   </a>
                 </div>
               </li>
               <li className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-coral-500 flex-shrink-0 mt-0.5" />
+                <MapPin className="w-5 h-5 text-brand-accent flex-shrink-0 mt-0.5" />
                 <div>Seraulim, Goa 403708, India</div>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Bottom Bar - UPDATED */}
-        <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+        {/* Bottom Bar */}
+        <div className="border-t border-brand-border mt-12 pt-8 text-center text-brand-text-muted">
           <p>&copy; {currentYear} Leimarics. All rights reserved.</p>
-          <p className="mt-2 text-sm">For What&apos;s Next. | Where Ambition Meets Execution.</p>
+          <p className="mt-2 text-sm font-mono">For What&apos;s Next. | Where Ambition Meets Execution.</p>
         </div>
       </div>
     </footer>

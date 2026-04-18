@@ -1,4 +1,5 @@
 import { ReactNode } from 'react'
+import { cn } from '@/lib/utils'
 
 interface ContainerProps {
   children: ReactNode
@@ -7,14 +8,9 @@ interface ContainerProps {
 
 export default function Container({ children, className = '' }: ContainerProps) {
   return (
-    <div className={`container mx-auto px-4 max-w-7xl ${className}`}>
+    // Replaced manual Tailwind classes with your new global CSS utility
+    <div className={cn("container-custom", className)}>
       {children}
     </div>
   )
 }
-
-// Usage example:
-// import Container from '@/components/layout/Container'
-// <Container className="py-24">
-//   <h1>Your content</h1>
-// </Container>
