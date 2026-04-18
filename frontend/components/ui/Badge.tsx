@@ -1,4 +1,3 @@
-// frontend/components/ui/Badge.tsx
 import { HTMLAttributes } from 'react'
 
 interface BadgeProps extends HTMLAttributes<HTMLDivElement> {
@@ -7,14 +6,15 @@ interface BadgeProps extends HTMLAttributes<HTMLDivElement> {
 
 export function Badge({ className = '', variant = 'default', children, ...props }: BadgeProps) {
   const variants = {
-    default: 'bg-gray-900 text-white',
-    secondary: 'bg-gray-100 text-gray-900',
-    destructive: 'bg-red-500 text-white',
-    outline: 'border border-gray-300 text-gray-700',
-    success: 'bg-green-100 text-green-700',
-    warning: 'bg-yellow-100 text-yellow-700',
-    info: 'bg-blue-100 text-blue-700',
-    coral: 'bg-coral-100 text-coral-700'
+    default: 'bg-brand-bg-secondary text-brand-text border border-brand-border',
+    secondary: 'bg-brand-bg text-brand-text-muted border border-brand-border-muted',
+    destructive: 'bg-red-500/10 text-red-500 border border-red-500/20',
+    outline: 'border border-brand-border text-brand-text',
+    success: 'bg-green-500/10 text-green-500 border border-green-500/20',
+    warning: 'bg-yellow-500/10 text-yellow-500 border border-yellow-500/20',
+    info: 'bg-blue-500/10 text-blue-500 border border-blue-500/20',
+    // Mapped 'coral' to the new Signal Teal so old code doesn't break
+    coral: 'bg-brand-accent/10 text-brand-accent border border-brand-accent/20'
   }
 
   return (

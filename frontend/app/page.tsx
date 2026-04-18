@@ -4,13 +4,13 @@ import Portfolio from '@/components/sections/Portfolio'
 import About from '@/components/sections/About'
 import Process from '@/components/sections/Process'
 import Testimonials from '@/components/sections/Testimonials'
-import Newsletter from '@/components/sections/Newsletter'  // ADD THIS
-import Contact from '@/components/sections/Contact'
+import Newsletter from '@/components/sections/Newsletter'
 import FAQ from '@/components/sections/FAQ'
+import Contact from '@/components/sections/Contact'
 
 export default function Home() {
   return (
-    <>
+    <div className="bg-brand-bg min-h-screen flex flex-col">
       <Hero />
       <Services />
       {/* Show only 3 projects on home page with "View All" button */}
@@ -19,8 +19,8 @@ export default function Home() {
       <Process />
       <Testimonials limit={3} />
       <Newsletter />  
-      <Contact />
       <FAQ />
-    </>
+      <Contact />
+    </div>
   )
 }

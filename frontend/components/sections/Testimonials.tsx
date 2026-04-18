@@ -1,4 +1,3 @@
-// frontend/components/sections/Testimonials.tsx
 'use client'
 
 import { motion } from 'framer-motion'
@@ -6,12 +5,8 @@ import { Card, CardHeader, CardContent } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Quote, Star } from 'lucide-react'
 
-// Mock testimonial type
 interface Testimonial {
-  sys: {
-    id: string
-    createdAt: string
-  }
+  sys: { id: string; createdAt: string }
   fields: {
     clientName: string
     clientRole: string
@@ -27,7 +22,6 @@ interface TestimonialsProps {
 }
 
 export default function Testimonials({ testimonials = [], limit }: TestimonialsProps) {
-  // Mock data for fallback
   const mockTestimonials: Testimonial[] = [
     {
       sys: { id: '1', createdAt: '2024-01-01' },
@@ -64,28 +58,22 @@ export default function Testimonials({ testimonials = [], limit }: TestimonialsP
   const displayTestimonials = testimonials.length > 0 ? testimonials : mockTestimonials
   const limitedTestimonials = limit ? displayTestimonials.slice(0, limit) : displayTestimonials
 
-  const getInitials = (name: string) => {
-    return name
-      .split(' ')
-      .map(n => n[0])
-      .join('')
-      .toUpperCase()
-  }
+  const getInitials = (name: string) => name.split(' ').map(n => n[0]).join('').toUpperCase()
 
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }).map((_, i) => (
       <Star
         key={i}
         className={`w-4 h-4 ${
-          i < rating ? 'fill-coral-500 text-coral-500' : 'fill-gray-200 text-gray-200'
+          i < rating ? 'fill-brand-accent text-brand-accent' : 'fill-brand-border text-brand-border'
         }`}
       />
     ))
   }
 
   return (
-    <section id="testimonials" className="py-24 bg-gradient-to-br from-gray-50 to-white">
-      <div className="container mx-auto px-4">
+    <section id="testimonials" className="section bg-brand-bg">
+      <div className="container-custom">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -93,13 +81,9 @@ export default function Testimonials({ testimonials = [], limit }: TestimonialsP
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <Badge variant="coral" className="mb-4 text-sm px-4 py-2">
-            Testimonials
-          </Badge>
-          <h2 className="text-4xl lg:text-5xl font-bold mb-6 font-display">
-            What Our Clients Say
-          </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <Badge className="mb-4">Testimonials</Badge>
+          <h2 className="heading-section">What Our Clients Say</h2>
+          <p className="text-body-lg max-w-2xl mx-auto">
             Don&apos;t just take our word for it. Here&apos;s what our satisfied clients have to say about working with Leimarics.
           </p>
         </motion.div>
@@ -113,41 +97,34 @@ export default function Testimonials({ testimonials = [], limit }: TestimonialsP
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
             >
-              <Card hover className="h-full relative">
-                {/* Quote Icon */}
-                <div className="absolute top-8 right-8 w-16 h-16 rounded-full bg-gradient-to-br from-coral-100 to-coral-50 flex items-center justify-center opacity-50">
-                  <Quote className="w-8 h-8 text-coral-500" />
+              <Card hover className="h-full relative flex flex-col">
+                <div className="absolute top-8 right-8 opacity-20">
+                  <Quote className="w-12 h-12 text-brand-text-muted" />
                 </div>
 
                 <CardHeader>
-                  {/* Stars */}
-                  <div className="flex gap-1 mb-4">
+                  <div className="flex gap-1 mb-2">
                     {renderStars(testimonial.fields.rating)}
                   </div>
                 </CardHeader>
 
-                <CardContent className="space-y-6">
-                  {/* Testimonial Text */}
-                  <p className="text-gray-700 leading-relaxed italic relative z-10">
+                <CardContent className="space-y-6 flex-grow flex flex-col">
+                  <p className="text-brand-text leading-relaxed italic relative z-10 flex-grow">
                     &quot;{testimonial.fields.testimonialText}&quot;
                   </p>
 
-                  {/* Author Info */}
-                  <div className="flex items-center gap-4 pt-6 border-t border-gray-100">
-                    {/* Avatar */}
-                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-navy-600 to-navy-800 flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
+                  <div className="flex items-center gap-4 pt-6 border-t border-brand-border mt-auto">
+                    <div className="w-12 h-12 rounded-full bg-brand-bg border border-brand-border flex items-center justify-center text-brand-text font-bold text-sm flex-shrink-0">
                       {getInitials(testimonial.fields.clientName)}
                     </div>
-
-                    {/* Name and Company */}
                     <div className="flex-1 min-w-0">
-                      <h4 className="font-semibold text-navy-900 truncate">
+                      <h4 className="font-semibold text-brand-text truncate">
                         {testimonial.fields.clientName}
                       </h4>
-                      <p className="text-sm text-gray-600 truncate">
+                      <p className="text-xs text-brand-text-muted truncate">
                         {testimonial.fields.clientRole}
                       </p>
-                      <p className="text-sm text-gray-500 truncate">
+                      <p className="text-xs text-brand-text-muted truncate">
                         {testimonial.fields.clientCompany}
                       </p>
                     </div>
@@ -158,7 +135,7 @@ export default function Testimonials({ testimonials = [], limit }: TestimonialsP
           ))}
         </div>
 
-        {/* Trust Badge */}
+        {/* Trust Badge Bottom */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -166,20 +143,20 @@ export default function Testimonials({ testimonials = [], limit }: TestimonialsP
           transition={{ duration: 0.6, delay: 0.4 }}
           className="text-center mt-16"
         >
-          <div className="inline-flex items-center gap-8 px-8 py-4 bg-white rounded-2xl shadow-lg">
+          <div className="inline-flex flex-wrap items-center justify-center gap-6 md:gap-8 px-8 py-6 bg-brand-bg-secondary border border-brand-border rounded-2xl shadow-sm">
             <div>
-              <div className="text-3xl font-bold text-navy-900">50+</div>
-              <div className="text-sm text-gray-600">Happy Clients</div>
+              <div className="text-3xl font-bold font-display text-brand-text">50+</div>
+              <div className="text-sm text-brand-text-muted">Happy Clients</div>
             </div>
-            <div className="w-px h-12 bg-gray-200"></div>
+            <div className="hidden md:block w-px h-12 bg-brand-border"></div>
             <div>
-              <div className="text-3xl font-bold text-navy-900">98%</div>
-              <div className="text-sm text-gray-600">Satisfaction Rate</div>
+              <div className="text-3xl font-bold font-display text-brand-text">98%</div>
+              <div className="text-sm text-brand-text-muted">Satisfaction Rate</div>
             </div>
-            <div className="w-px h-12 bg-gray-200"></div>
+            <div className="hidden md:block w-px h-12 bg-brand-border"></div>
             <div>
-              <div className="text-3xl font-bold text-navy-900">4.9/5</div>
-              <div className="text-sm text-gray-600">Average Rating</div>
+              <div className="text-3xl font-bold font-display text-brand-text">4.9/5</div>
+              <div className="text-sm text-brand-text-muted">Average Rating</div>
             </div>
           </div>
         </motion.div>

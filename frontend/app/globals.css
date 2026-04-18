@@ -1,74 +1,93 @@
 @import "tailwindcss";
 
+/* TAILWIND V4 THEME CONFIGURATION*/
 @theme {
-  /* --- Color Palette: Deep Midnight Navy --- */
-  --color-navy-50: #f0f4f8;
-  --color-navy-100: #d9e2ec;
-  --color-navy-200: #bcccdc;
-  --color-navy-300: #9fb3c8;
-  --color-navy-400: #829ab1;
-  --color-navy-500: #627d98;
-  --color-navy-600: #486581;
-  --color-navy-700: #334e68;
-  --color-navy-800: #243b53;
-  --color-navy-900: #102a43; /* Deep dark background */
+  /* Brand Colors mapped to CSS Variables */
+  --color-brand-bg: var(--color-bg);
+  --color-brand-bg-secondary: var(--color-bg-secondary);
+  --color-brand-text: var(--color-text);
+  --color-brand-text-muted: var(--color-text-muted);
+  --color-brand-accent: #00C9B1;
+  --color-brand-accent-hover: #00B09A;
+  --color-brand-border: var(--color-border);
+  --color-brand-border-muted: var(--color-border-muted);
 
-  /* --- Color Palette: High-Contrast Coral --- */
-  --color-coral-50: #fff5f5;
-  --color-coral-100: #ffe3e3;
-  --color-coral-200: #ffc9c9;
-  --color-coral-300: #ffa8a8;
-  --color-coral-400: #ff8787;
-  --color-coral-500: #ff6b6b; /* Main button color */
-  --color-coral-600: #fa5252;
-  --color-coral-700: #f03e3e;
-  --color-coral-800: #e03131;
-  --color-coral-900: #c92a2a;
+  /* Typography mapped to Next.js font variables */
+  --font-display: var(--font-syne), sans-serif;
+  --font-sans: var(--font-dm-sans), sans-serif;
+  --font-mono: var(--font-dm-mono), monospace;
 
-  /* --- Fonts --- */
-  --font-sans: var(--font-inter), system-ui, sans-serif;
-  --font-display: var(--font-sora), system-ui, sans-serif;
-  
-  /* --- Animation (Optional) --- */
-  --animate-accordion-down: accordion-down 0.2s ease-out;
-  --animate-accordion-up: accordion-up 0.2s ease-out;
+  /* Custom Spacing */
+  --spacing-section: 6rem;
+  --spacing-section-sm: 4rem;
 
-  @keyframes accordion-down {
-    from { height: 0; }
-    to { height: var(--radix-accordion-content-height); }
-  }
-  @keyframes accordion-up {
-    from { height: var(--radix-accordion-content-height); }
-    to { height: 0; }
-  }
+  /* Custom Shadows */
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-card-hover: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
-/* --- Utilities & Resets --- */
+/* LIGHT & DARK MODE VARIABLES */
 @layer base {
-  html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 80px;
+  :root {
+    --color-bg: #FAFAF7;
+    --color-bg-secondary: #F0F0ED;
+    --color-text: #0D0D0B;
+    --color-text-muted: #888882;
+    --color-border: #CCCCCA;
+    --color-border-muted: #E0DEDA;
   }
-  
-  body {
-    @apply bg-white text-gray-900;
-    font-feature-settings: "rlig" 1, "calt" 1;
-  }
-  
-  /* Default Border Color */
-  * {
-    border-color: var(--color-gray-200); 
+
+  .dark {
+    --color-bg: #0D0D0B;
+    --color-bg-secondary: #1A1A18;
+    --color-text: #F5F5F2;
+    --color-text-muted: #888882;
+    --color-border: #2A2A26;
+    --color-border-muted: #1E1E1C;
   }
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+/* BASE STYLES & COMPONENTS */
+@layer base {
+  body {
+    @apply bg-brand-bg text-brand-text font-sans antialiased;
+    transition: background-color 300ms ease, color 300ms ease;
   }
-  
-  .container {
-    margin-inline: auto;
-    padding-inline: 1rem;
-    max-width: 80rem; /* Equivalent to max-w-7xl */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-bold text-brand-text;
+    letter-spacing: -0.02em;
+  }
+  a {
+    @apply text-brand-accent hover:text-brand-accent-hover transition-colors;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-brand-accent text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-accent-hover transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-brand-accent focus:ring-offset-2;
+  }
+  .btn-secondary {
+    @apply border-2 border-brand-accent text-brand-accent px-6 py-3 rounded-lg font-semibold hover:bg-brand-accent hover:text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-accent focus:ring-offset-2;
+  }
+  .card {
+    @apply bg-brand-bg border border-brand-border rounded-lg p-6 shadow-card hover:shadow-card-hover transition-shadow duration-300;
+  }
+  .section {
+    @apply w-full py-section;
+  }
+  .container-custom {
+    @apply max-w-7xl mx-auto px-6 md:px-8;
+  }
+  .heading-hero {
+    @apply font-display text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight;
+  }
+  .heading-section {
+    @apply font-display text-3xl md:text-4xl font-bold mb-6;
+  }
+  .text-body-lg {
+    @apply font-sans text-lg md:text-xl text-brand-text-muted leading-relaxed;
+  }
+  .text-gradient {
+    @apply bg-gradient-to-r from-brand-accent to-brand-accent-hover bg-clip-text text-transparent;
   }
 }

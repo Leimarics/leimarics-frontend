@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
+  <rect width="80" height="80" rx="8" fill="#FAFAF7"/>
+  
+  <polygon points="64.25,54.00 40.00,68.00 15.75,54.00 15.75,26.00 40.00,12.00 64.25,26.00" fill="none" stroke="#CCCCCA" stroke-width="1.5"/>
+  
+  <line x1="40" y1="18" x2="59.05" y2="51" stroke="#E0DEDA" stroke-width="1.05" stroke-dasharray="5.0 4.0"/>
+  <line x1="59.05" y1="51" x2="20.95" y2="51" stroke="#E0DEDA" stroke-width="1.05" stroke-dasharray="5.0 4.0"/>
+  <line x1="20.95" y1="51" x2="40" y2="18" stroke="#E0DEDA" stroke-width="1.05" stroke-dasharray="5.0 4.0"/>
+  
+  <circle cx="40" cy="18" r="4.0" fill="#AAAAAA"/>
+  <circle cx="59.05" cy="51" r="4.0" fill="#AAAAAA"/>
+  <circle cx="20.95" cy="51" r="4.0" fill="#00C9B1"/>
+  
+  <text x="42" y="46" text-anchor="middle"
+    font-family="'Outfit',Helvetica,Arial,sans-serif"
+    font-weight="700" font-size="20" fill="#0D0D0B">L</text>
+
+</svg>

@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
+import { Badge } from '@/components/ui/Badge'
 import { Check, ArrowRight } from 'lucide-react'
 import Contact from '@/components/sections/Contact'
 
@@ -29,23 +30,23 @@ export default function ServiceTemplate({
   icon,
 }: ServiceTemplateProps) {
   return (
-    <>
+    <div className="bg-brand-bg min-h-screen">
       {/* Hero Section */}
-      <section className="pt-32 pb-20 bg-gradient-to-br from-navy-900 via-navy-800 to-navy-900">
-        <div className="container mx-auto px-4">
+      <section className="pt-32 pb-24 bg-brand-bg-secondary border-b border-brand-border">
+        <div className="container-custom">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto text-center text-white"
+            className="max-w-4xl mx-auto text-center"
           >
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-coral-500/20 mb-6">
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-brand-accent/10 border border-brand-accent/20 mb-8 text-brand-accent">
               {icon}
             </div>
-            <h1 className="text-5xl lg:text-6xl font-bold mb-6">{title}</h1>
-            <p className="text-xl text-gray-300 mb-8">{subtitle}</p>
-            <Link href="/#contact">
-              <Button variant="primary" size="lg" className="group">
+            <h1 className="heading-hero mb-6 text-brand-text">{title}</h1>
+            <p className="text-body-lg mb-10 max-w-2xl mx-auto">{subtitle}</p>
+            <Link href="/#contact" tabIndex={-1}>
+              <Button variant="primary" size="lg" className="group border-0">
                 Get Started
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
@@ -54,19 +55,21 @@ export default function ServiceTemplate({
         </div>
       </section>
 
-      {/* Description */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
+      {/* Description & Features */}
+      <section className="section bg-brand-bg">
+        <div className="container-custom">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl font-bold mb-6">What We Offer</h2>
-            <p className="text-lg text-gray-600 leading-relaxed mb-8">{description}</p>
+            <h2 className="heading-section mb-6">What We Offer</h2>
+            <p className="text-body-lg leading-relaxed mb-12">{description}</p>
 
-            <h3 className="text-2xl font-bold mb-4">Key Features</h3>
-            <ul className="space-y-3">
+            <h3 className="font-display font-bold text-2xl text-brand-text mb-6">Key Features</h3>
+            <ul className="space-y-4">
               {features.map((feature, index) => (
-                <li key={index} className="flex items-start gap-3">
-                  <Check className="w-6 h-6 text-coral-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">{feature}</span>
+                <li key={index} className="flex items-start gap-4">
+                  <div className="bg-brand-accent/10 p-1 rounded-full flex-shrink-0 mt-0.5">
+                    <Check className="w-4 h-4 text-brand-accent" />
+                  </div>
+                  <span className="text-brand-text font-medium">{feature}</span>
                 </li>
               ))}
             </ul>
@@ -75,15 +78,15 @@ export default function ServiceTemplate({
       </section>
 
       {/* Benefits */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl font-bold mb-8 text-center">Why Choose This Service?</h2>
+      <section className="section-sm bg-brand-bg-secondary border-y border-brand-border">
+        <div className="container-custom">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="heading-section mb-12 text-center">Why Choose This Service?</h2>
             <div className="grid md:grid-cols-2 gap-6">
               {benefits.map((benefit, index) => (
-                <div key={index} className="bg-white p-6 rounded-xl shadow-sm">
-                  <Check className="w-8 h-8 text-coral-500 mb-3" />
-                  <p className="text-gray-700">{benefit}</p>
+                <div key={index} className="bg-brand-bg border border-brand-border p-8 rounded-2xl shadow-sm hover:border-brand-accent/30 transition-colors">
+                  <Check className="w-8 h-8 text-brand-accent mb-4" />
+                  <p className="text-brand-text-muted leading-relaxed font-medium">{benefit}</p>
                 </div>
               ))}
             </div>
@@ -92,44 +95,56 @@ export default function ServiceTemplate({
       </section>
 
       {/* Pricing */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-12 text-center">Pricing Options</h2>
+      <section className="section bg-brand-bg">
+        <div className="container-custom">
+          <h2 className="heading-section mb-16 text-center">Pricing Options</h2>
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {/* Basic */}
-            <div className="border-2 border-gray-200 rounded-2xl p-8">
-              <h3 className="text-2xl font-bold mb-2">Basic Package</h3>
-              <div className="text-4xl font-bold text-coral-500 mb-6">{pricing.basic.price}</div>
-              <ul className="space-y-3 mb-8">
+            
+            {/* Basic Package */}
+            <div className="bg-brand-bg-secondary border border-brand-border rounded-2xl p-8 flex flex-col hover:shadow-card-hover transition-shadow">
+              <h3 className="font-display font-bold text-2xl text-brand-text mb-2">Basic Package</h3>
+              <div className="font-mono text-3xl font-bold text-brand-accent mb-8">{pricing.basic.price}</div>
+              
+              <ul className="space-y-4 mb-10 flex-grow">
                 {pricing.basic.features.map((feature, index) => (
-                  <li key={index} className="flex items-start gap-2">
-                    <Check className="w-5 h-5 text-coral-500 flex-shrink-0 mt-0.5" />
+                  <li key={index} className="flex items-start gap-3 text-brand-text-muted">
+                    <Check className="w-5 h-5 text-brand-accent flex-shrink-0" />
                     <span>{feature}</span>
                   </li>
                 ))}
               </ul>
-              <Link href="/#contact">
-                <Button variant="outline" className="w-full">Choose Basic</Button>
+              
+              <Link href="/#contact" tabIndex={-1} className="mt-auto">
+                <Button variant="outline" className="w-full hover:border-brand-accent hover:text-brand-accent">
+                  Choose Basic
+                </Button>
               </Link>
             </div>
 
-            {/* Business */}
-            <div className="border-2 border-coral-500 rounded-2xl p-8 relative">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-coral-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
-                Popular
+            {/* Business Package */}
+            <div className="bg-brand-bg-secondary border-2 border-brand-accent rounded-2xl p-8 relative flex flex-col shadow-card">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                <Badge className="bg-brand-accent text-white border-0 shadow-sm px-6 py-1.5">
+                  Most Popular
+                </Badge>
               </div>
-              <h3 className="text-2xl font-bold mb-2">Business Package</h3>
-              <div className="text-4xl font-bold text-coral-500 mb-6">{pricing.business.price}</div>
-              <ul className="space-y-3 mb-8">
+              
+              <h3 className="font-display font-bold text-2xl text-brand-text mb-2">Business Package</h3>
+              <div className="font-mono text-3xl font-bold text-brand-accent mb-8">{pricing.business.price}</div>
+              
+              <ul className="space-y-4 mb-10 flex-grow">
                 {pricing.business.features.map((feature, index) => (
-                  <li key={index} className="flex items-start gap-2">
-                    <Check className="w-5 h-5 text-coral-500 flex-shrink-0 mt-0.5" />
-                    <span>{feature}</span>
+                  <li key={index} className="flex items-start gap-3 text-brand-text">
+                    <Check className="w-5 h-5 text-brand-accent flex-shrink-0" />
+                    <span className="font-medium">{feature}</span>
                   </li>
                 ))}
               </ul>
-              <Link href="/#contact">
-                <Button variant="primary" className="w-full">Choose Business</Button>
+              
+              <Link href="/#contact" tabIndex={-1} className="mt-auto">
+                <Button variant="primary" className="w-full border-0 shadow-md shadow-brand-accent/20">
+                  Choose Business
+                </Button>
               </Link>
             </div>
           </div>
@@ -138,6 +153,6 @@ export default function ServiceTemplate({
 
       {/* Contact */}
       <Contact />
-    </>
+    </div>
   )
 }

@@ -11,21 +11,24 @@ export const metadata = {
 
 export default function ServicesPage() {
   return (
-    <>
-      <div className="pt-20 bg-gradient-to-br from-gray-50 to-white">
-        <div className="container mx-auto px-4 py-16 text-center">
-          <h1 className="text-5xl font-bold mb-6">Our Services</h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+    <div className="bg-brand-bg min-h-screen">
+      {/* Services Header Section */}
+      <div className="pt-32 pb-20 bg-brand-bg-secondary border-b border-brand-border">
+        <div className="container-custom text-center">
+          <h1 className="heading-hero mb-6 text-brand-text">Our Services</h1>
+          <p className="text-body-lg max-w-3xl mx-auto">
             From simple websites to complex e-commerce platforms, we offer 
             comprehensive web development services tailored to your needs.
           </p>
         </div>
       </div>
+      
+      {/* All your original sections, fully upgraded! */}
       <Services />
       <Process />
       <Testimonials limit={3} />
       <FAQ />
       <Contact />
-    </>
+    </div>
   )
 }

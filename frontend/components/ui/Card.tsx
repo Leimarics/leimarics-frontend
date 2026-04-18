@@ -9,8 +9,9 @@ export function Card({ className, hover = false, children, ...props }: CardProps
   return (
     <div
       className={cn(
-        'rounded-2xl bg-white p-8 shadow-lg border border-gray-100',
-        hover && 'transition-all duration-300 hover:shadow-2xl hover:-translate-y-2',
+        // Updated to Signal Mark theme variables
+        'rounded-2xl bg-brand-bg-secondary p-8 shadow-card border border-brand-border',
+        hover && 'transition-all duration-300 hover:shadow-card-hover hover:-translate-y-2 hover:border-brand-accent/50',
         className
       )}
       {...props}
@@ -25,11 +26,13 @@ export function CardHeader({ className, ...props }: HTMLAttributes<HTMLDivElemen
 }
 
 export function CardTitle({ className, ...props }: HTMLAttributes<HTMLHeadingElement>) {
-  return <h3 className={cn('text-2xl font-bold text-navy-900', className)} {...props} />
+  // Updated text color
+  return <h3 className={cn('text-2xl font-bold font-display text-brand-text', className)} {...props} />
 }
 
 export function CardDescription({ className, ...props }: HTMLAttributes<HTMLParagraphElement>) {
-  return <p className={cn('text-gray-600 leading-relaxed', className)} {...props} />
+  // Updated text color
+  return <p className={cn('text-brand-text-muted leading-relaxed', className)} {...props} />
 }
 
 export function CardContent({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
