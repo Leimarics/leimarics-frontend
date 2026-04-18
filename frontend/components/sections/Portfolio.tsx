@@ -117,8 +117,8 @@ export default function Portfolio({ limit, showViewAll = false }: PortfolioProps
   const displayedProjects = limit ? projects.slice(0, limit) : projects
 
   return (
-    <section id="portfolio" className="py-24 bg-white">
-      <div className="container mx-auto px-4">
+    <section id="portfolio" className="section bg-brand-bg">
+      <div className="container-custom">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -126,11 +126,11 @@ export default function Portfolio({ limit, showViewAll = false }: PortfolioProps
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <Badge variant="coral" className="mb-4">Our Work</Badge>
-          <h2 className="text-4xl lg:text-5xl font-bold mb-6 font-display">
+          <Badge className="mb-4">Our Work</Badge>
+          <h2 className="heading-section">
             Recent Projects
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-body-lg max-w-2xl mx-auto">
             Explore our portfolio of successful projects across different industries. 
             Each website is crafted with attention to detail and optimized for results.
           </p>
@@ -144,24 +144,24 @@ export default function Portfolio({ limit, showViewAll = false }: PortfolioProps
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300"
+              className="group bg-brand-bg-secondary rounded-2xl overflow-hidden shadow-card border border-brand-border hover:shadow-card-hover hover:border-brand-accent/50 transition-all duration-300 flex flex-col"
             >
               {/* Project Image */}
-              <div className="relative h-64 overflow-hidden">
+              <div className="relative h-64 overflow-hidden flex-shrink-0 border-b border-brand-border">
                 <Image
                   src={project.image}
                   alt={project.title}
                   fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-500"
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 {/* Category Badge */}
                 <div className="absolute top-4 left-4">
-                  <Badge variant="default" className="bg-white/90 backdrop-blur-sm text-navy-900">
+                  <div className="bg-brand-bg/90 backdrop-blur-sm border border-brand-border text-brand-text px-3 py-1 rounded-full text-xs font-semibold shadow-sm">
                     {project.badge}
-                  </Badge>
+                  </div>
                 </div>
                 {/* Overlay on Hover */}
-                <div className="absolute inset-0 bg-gradient-to-t from-navy-900/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
                   <Link 
                     href={`/portfolio/${project.slug}`}
                     className="text-white flex items-center gap-2 font-semibold hover:gap-4 transition-all"
@@ -173,37 +173,37 @@ export default function Portfolio({ limit, showViewAll = false }: PortfolioProps
               </div>
 
               {/* Project Info */}
-              <div className="p-6">
-                <h3 className="text-2xl font-bold mb-2 text-navy-900 group-hover:text-coral-500 transition-colors">
+              <div className="p-6 flex flex-col flex-grow">
+                <h3 className="text-xl font-bold mb-2 font-display text-brand-text group-hover:text-brand-accent transition-colors">
                   {project.title}
                 </h3>
-                <p className="text-gray-600 mb-4 line-clamp-2">
+                <p className="text-brand-text-muted text-sm mb-4 line-clamp-2">
                   {project.description}
                 </p>
 
                 {/* Client */}
-                <div className="text-sm text-gray-500 mb-4">
-                  Client: <span className="font-semibold text-gray-700">{project.client}</span>
+                <div className="text-sm text-brand-text-muted mb-6 pb-4 border-b border-brand-border">
+                  Client: <span className="font-semibold text-brand-text">{project.client}</span>
                 </div>
 
                 {/* Metrics */}
-                <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="grid grid-cols-2 gap-4 mb-8 mt-auto">
                   {project.metrics.map((metric, i) => (
                     <div key={i} className="flex items-start gap-2">
-                      <metric.icon className="w-5 h-5 text-coral-500 flex-shrink-0 mt-0.5" />
+                      <metric.icon className="w-4 h-4 text-brand-accent flex-shrink-0 mt-0.5" />
                       <div>
-                        <div className="font-bold text-navy-900">{metric.value}</div>
-                        <div className="text-xs text-gray-500">{metric.label}</div>
+                        <div className="font-bold font-mono text-brand-text">{metric.value}</div>
+                        <div className="text-xs text-brand-text-muted">{metric.label}</div>
                       </div>
                     </div>
                   ))}
                 </div>
 
                 {/* View Project Button */}
-                <Link href={`/portfolio/${project.slug}`}>
-                  <Button variant="outline" className="w-full group-hover:bg-coral-500 group-hover:text-white group-hover:border-coral-500 transition-all">
+                <Link href={`/portfolio/${project.slug}`} tabIndex={-1}>
+                  <Button variant="outline" className="w-full group-hover:border-brand-accent group-hover:text-brand-accent transition-colors">
                     View Project
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </Link>
               </div>
@@ -220,8 +220,8 @@ export default function Portfolio({ limit, showViewAll = false }: PortfolioProps
             transition={{ duration: 0.6, delay: 0.3 }}
             className="text-center mt-12"
           >
-            <Link href="/portfolio">
-              <Button variant="primary" size="lg" className="group">
+            <Link href="/portfolio" tabIndex={-1}>
+              <Button variant="primary" size="lg" className="group border-0">
                 View All Projects ({projects.length})
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>

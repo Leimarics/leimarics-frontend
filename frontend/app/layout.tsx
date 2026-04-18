@@ -1,35 +1,46 @@
 import type { Metadata } from 'next'
-import { Inter, Sora } from 'next/font/google'
+import { Syne, DM_Sans, DM_Mono } from 'next/font/google'
+import { ThemeProvider } from '@/components/ThemeProvider'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import './globals.css'
 
-const inter = Inter({ 
+// Font configurations mapped to CSS variables
+const syne = Syne({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-syne',
   display: 'swap',
 })
 
-const sora = Sora({ 
+const dmSans = DM_Sans({
   subsets: ['latin'],
-  variable: '--font-sora',
+  variable: '--font-dm-sans',
   display: 'swap',
 })
 
+const dmMono = DM_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  variable: '--font-dm-mono',
+  display: 'swap',
+})
+
+// Merged Metadata: New DevOps messaging + Your original rich SEO/OpenGraph structure
 export const metadata: Metadata = {
   metadataBase: new URL('https://leimarics.com'),
-  title: 'Leimarics - For What\'s Next',
-  description: 'Where Ambition Meets Execution. We architect world-class digital solutions for businesses ready to lead their markets.',
-  keywords: 'web development, digital solutions, Leimarics, business websites, professional websites, global scale',
+  title: 'Leimarics - Cloud-Native Web & Infrastructure Agency',
+  description: 'DevOps-native web development. Production-grade infrastructure for modern businesses in Goa, India.',
+  keywords: 'DevOps, Cloud Infrastructure, Web Development, AWS, Next.js, Goa, Leimarics',
   
   icons: {
-    icon: '/favicon.ico',
-    apple: '/apple-icon.png',
+    // Point this to your new logo in the public/logos folder
+    icon: '/logos/Leimarics-logo-favico-dark.png',
+    apple: '/apple-icon.png', // You can leave this as the old one for now,
   },
   
   openGraph: {
-    title: 'Leimarics - For What\'s Next',
-    description: 'Where Ambition Meets Execution. World-class digital solutions for global brands.',
+    title: 'Leimarics - Cloud-Native Agency',
+    description: 'Where Ambition Meets Execution. Production-grade infrastructure.',
     url: 'https://leimarics.com',
     siteName: 'Leimarics',
     images: [
@@ -45,9 +56,9 @@ export const metadata: Metadata = {
   
   twitter: {
     card: 'summary_large_image',
-    title: 'Leimarics - For What\'s Next',
+    title: 'Leimarics - Cloud-Native Agency',
     description: 'Where Ambition Meets Execution.',
-    images: ['/og-image.png'],
+    images: ['/Leimarics-og-image.png'], // Make sure to use the correct image path
   },
 }
 
@@ -57,15 +68,16 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${sora.variable} scroll-smooth`}>
-      <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="apple-touch-icon" href="/apple-icon.png" />
-      </head>
+    // suppressHydrationWarning prevents next-themes from throwing errors on initial load
+    // Added your original scroll-smooth class here
+    <html lang="en" suppressHydrationWarning className={`${syne.variable} ${dmSans.variable} ${dmMono.variable} scroll-smooth`}>
+      {/* Added your original antialiased class here for crisper font rendering */}
       <body className="font-sans antialiased">
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
+        <ThemeProvider>
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   )

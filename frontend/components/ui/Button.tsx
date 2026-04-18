@@ -16,26 +16,26 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(
           // Base styles
           'inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-all duration-200',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2',
           'disabled:opacity-50 disabled:cursor-not-allowed',
           
-          // Variants
+          // Variants mapped to Signal Mark Branding
           {
-            // Primary
-            'bg-gradient-to-r from-coral-500 to-coral-600 text-white shadow-lg shadow-coral-500/30': variant === 'primary',
-            'hover:shadow-xl hover:shadow-coral-500/40 hover:-translate-y-0.5': variant === 'primary' && !disabled,
+            // Primary: Signal Teal
+            'bg-brand-accent text-white shadow-lg shadow-brand-accent/20': variant === 'primary',
+            'hover:bg-brand-accent-hover hover:shadow-xl hover:-translate-y-0.5': variant === 'primary' && !disabled,
             
-            // Secondary
-            'bg-navy-600 text-white shadow-lg shadow-navy-600/30': variant === 'secondary',
-            'hover:bg-navy-700 hover:shadow-xl hover:shadow-navy-600/40 hover:-translate-y-0.5': variant === 'secondary' && !disabled,
+            // Secondary: Subtle Background matching theme
+            'bg-brand-bg-secondary text-brand-text border border-brand-border': variant === 'secondary',
+            'hover:border-brand-accent hover:text-brand-accent hover:-translate-y-0.5': variant === 'secondary' && !disabled,
             
-            // Outline
-            'border-2 border-navy-600 text-navy-600 bg-transparent': variant === 'outline',
-            'hover:bg-navy-600 hover:text-white': variant === 'outline' && !disabled,
+            // Outline: Transparent with brand borders
+            'border-2 border-brand-border text-brand-text bg-transparent': variant === 'outline',
+            'hover:border-brand-accent hover:text-brand-accent': variant === 'outline' && !disabled,
             
-            // Ghost
-            'text-navy-600 bg-transparent': variant === 'ghost',
-            'hover:bg-navy-50': variant === 'ghost' && !disabled,
+            // Ghost: Transparent, hover effect only
+            'text-brand-text bg-transparent': variant === 'ghost',
+            'hover:bg-brand-bg-secondary': variant === 'ghost' && !disabled,
           },
           
           // Sizes

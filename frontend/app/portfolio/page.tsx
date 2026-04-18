@@ -9,21 +9,22 @@ export const metadata = {
 
 export default function PortfolioPage() {
   return (
-    <>
-      <div className="pt-20 bg-gradient-to-br from-gray-50 to-white">
-        <div className="container mx-auto px-4 py-16 text-center">
-          <h1 className="text-5xl font-bold mb-6">Our Work</h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+    <div className="bg-brand-bg min-h-screen">
+      {/* Portfolio Header Section */}
+      <div className="pt-32 pb-20 bg-brand-bg-secondary border-b border-brand-border">
+        <div className="container-custom text-center">
+          <h1 className="heading-hero mb-6 text-brand-text">Our Work</h1>
+          <p className="text-body-lg max-w-3xl mx-auto">
             Explore our portfolio of successful projects. Each website is crafted 
             with attention to detail and optimized for results.
           </p>
         </div>
       </div>
-      {/* <Portfolio showViewAll={false} /> */}
+      
       {/* Show ALL projects (no limit) */}
       <Portfolio />
       <Testimonials limit={3} />
       <Contact />
-    </>
+    </div>
   )
 }

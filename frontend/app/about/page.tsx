@@ -8,14 +8,15 @@ export const metadata = {
 
 export default function AboutPage() {
   return (
-    <>
-      <section className="pt-32 pb-12 bg-gradient-to-br from-gray-50 to-white">
-        <div className="container mx-auto px-4">
+    <div className="bg-brand-bg min-h-screen">
+      {/* About Header Section */}
+      <section className="pt-32 pb-20 bg-brand-bg-secondary border-b border-brand-border">
+        <div className="container-custom">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl lg:text-6xl font-bold mb-6 font-display">
+            <h1 className="heading-hero mb-6 text-brand-text">
               About Leimarics
             </h1>
-            <p className="text-xl text-gray-600">
+            <p className="text-body-lg">
               For What&apos;s Next. Where Ambition Meets Execution.
             </p>
           </div>
@@ -24,6 +25,6 @@ export default function AboutPage() {
       
       <About />
       <Contact />
-    </>
+    </div>
   )
 }
