@@ -94,16 +94,19 @@ export default function ServiceTemplate({
         </div>
       </section>
 
-      {/* Pricing */}
+      {/* Packages Section (Formerly Pricing) */}
       <section className="section bg-brand-bg">
         <div className="container-custom">
-          <h2 className="heading-section mb-16 text-center">Pricing Options</h2>
+          {/* Changed Title to reflect feature packages rather than pricing */}
+          <h2 className="heading-section mb-16 text-center">Service Packages</h2>
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             
             {/* Basic Package */}
             <div className="bg-brand-bg-secondary border border-brand-border rounded-2xl p-8 flex flex-col hover:shadow-card-hover transition-shadow">
-              <h3 className="font-display font-bold text-2xl text-brand-text mb-2">Basic Package</h3>
-              <div className="font-mono text-3xl font-bold text-brand-accent mb-8">{pricing.basic.price}</div>
+              <h3 className="font-display font-bold text-2xl text-brand-text mb-4">Basic Package</h3>
+              
+              {/* PRICING HIDDEN: Uncomment the line below to restore public pricing */}
+              {/* <div className="font-mono text-3xl font-bold text-brand-accent mb-8">{pricing.basic.price}</div> */}
               
               <ul className="space-y-4 mb-10 flex-grow">
                 {pricing.basic.features.map((feature, index) => (
@@ -116,7 +119,7 @@ export default function ServiceTemplate({
               
               <Link href="/#contact" tabIndex={-1} className="mt-auto">
                 <Button variant="outline" className="w-full hover:border-brand-accent hover:text-brand-accent">
-                  Choose Basic
+                  Inquire About Basic
                 </Button>
               </Link>
             </div>
@@ -129,8 +132,10 @@ export default function ServiceTemplate({
                 </Badge>
               </div>
               
-              <h3 className="font-display font-bold text-2xl text-brand-text mb-2">Business Package</h3>
-              <div className="font-mono text-3xl font-bold text-brand-accent mb-8">{pricing.business.price}</div>
+              <h3 className="font-display font-bold text-2xl text-brand-text mb-4">Business Package</h3>
+              
+              {/* PRICING HIDDEN: Uncomment the line below to restore public pricing */}
+              {/* <div className="font-mono text-3xl font-bold text-brand-accent mb-8">{pricing.business.price}</div> */}
               
               <ul className="space-y-4 mb-10 flex-grow">
                 {pricing.business.features.map((feature, index) => (
@@ -143,7 +148,7 @@ export default function ServiceTemplate({
               
               <Link href="/#contact" tabIndex={-1} className="mt-auto">
                 <Button variant="primary" className="w-full border-0 shadow-md shadow-brand-accent/20">
-                  Choose Business
+                  Inquire About Business
                 </Button>
               </Link>
             </div>
